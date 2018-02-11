@@ -1,0 +1,9 @@
+#!/usr/bin/with-contenv sh
+
+umask 022
+
+rcache_mount_command="rclone mount --config=/config/.rclone.conf --allow-other $RCLONE_CACHE_MOUNT_OPTIONS $RCLONE_CACHE_MOUNT /rcache"
+
+echo "Executing => $rcache_mount_command"
+exec \
+	s6-setuidgid abc $rcache_mount_command
