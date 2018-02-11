@@ -2,8 +2,8 @@
 
 umask 022
 
-mount_command="unionfs $UNION_MOUNT_OPTIONS /local=RW:/rcache=RO /union"
+union_mount_command="unionfs-fuse -o uid=${PUID:-911} -o gid=${PGID:-911} $UNION_MOUNT_OPTIONS /local=RW:/rcache=RO /union"
 
-echo "Executing => $mount_command"
+echo "Executing => $union_mount_command"
 exec \
-	s6-setuidgid abc $mount_command
+	s6-setuidgid abc $union_mount_command
