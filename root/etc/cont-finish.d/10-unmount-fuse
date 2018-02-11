@@ -1,4 +1,6 @@
 #!/usr/bin/with-contenv sh
 
 # unmount fuse
-fusermount -u /remote
+fusermount -u /rclone
+fusermount -u /rcache
+fusermount -u /union
