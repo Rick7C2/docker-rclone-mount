@@ -57,7 +57,7 @@ RUN \
 	usermod -G users abc && \
 
 # create some files / folders
-	mkdir -p /config /remote /local /media
+	mkdir -p /config /rclone /local /rcache /union
 
 # add local files
 COPY root/ /
