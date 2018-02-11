@@ -62,6 +62,6 @@ RUN \
 # add local files
 COPY root/ /
 
-VOLUME /config /rclone /local /rcache /union
+VOLUME ["/config", "/local", "/rclone", "/rcache", "/union"]
 
 ENTRYPOINT ["/init"]
