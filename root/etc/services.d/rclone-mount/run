@@ -7,7 +7,13 @@ if [ -z "$RCLONE_REMOTE_MOUNT" ]; then
   exit 1
 fi
 
-mount_command="rclone mount --config=/config/.rclone.conf --allow-other $RCLONE_MOUNT_OPTIONS $RCLONE_REMOTE_MOUNT /data"
+mount_command="rclone mount --config=/config/.rclone.conf --allow-other $RCLONE_MOUNT_OPTIONS $RCLONE_REMOTE_MOUNT /rclone"
+
+echo "Executing => $mount_command"
+exec \
+	s6-setuidgid abc $mount_command
+	
+mount_command="rclone mount --config=/config/.rclone.conf --allow-other $RCLONE_CACHE_MOUNT_OPTIONS $RCLONE_CACHE_MOUNT /rcache"
 
 echo "Executing => $mount_command"
 exec \
