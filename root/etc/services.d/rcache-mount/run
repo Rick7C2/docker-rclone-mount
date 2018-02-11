@@ -2,6 +2,11 @@
 
 umask 022
 
+if [ -z "$RCLONE_CACHE_MOUNT" ]; then
+  echo "Error: RCLONE_CACHE_MOUNT environment variable was not passed to the container."
+  exit 1
+fi
+
 rcache_mount_command="rclone mount --config=/config/.rclone.conf --allow-other $RCLONE_CACHE_MOUNT_OPTIONS $RCLONE_CACHE_MOUNT /rcache"
 
 echo "Executing => $rcache_mount_command"
