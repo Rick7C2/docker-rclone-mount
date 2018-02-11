@@ -7,8 +7,26 @@ if [ -z "$RCLONE_REMOTE_MOUNT" ]; then
   exit 1
 fi
 
-mount_command="rclone mount --config=/config/.rclone.conf --allow-other $RCLONE_MOUNT_OPTIONS $RCLONE_REMOTE_MOUNT /data"
+if [ -z "$RCLONE_LOCAL_MOUNT" ]; then
+  echo "Error: RCLONE_LOCAL_MOUNT environment variable was not passed to the container."
+  exit 1
+fi
 
-echo "Executing => $mount_command"
+if [ -z "$RCLONE_UNION_MOUNT" ]; then
+  echo "Error: RCLONE_UNION_MOUNT environment variable was not passed to the container."
+  exit 1
+fi
+
+remote_mount_command="rclone mount --config=/config/.rclone.conf --allow-other $RCLONE_MOUNT_OPTIONS $RCLONE_REMOTE_MOUNT /data"
+
+echo "Executing => $remote_mount_command"
 exec \
-	s6-setuidgid abc $mount_command
+	s6-setuidgid abc $remote_mount_command
+	
+union_mount_command="rclone mount --config=/config/.rclone.conf --allow-other $RCLONE_MOUNT_OPTIONS $RCLONE_REMOTE_MOUNT /data"
+
+echo "Executing => $union_mount_command"
+exec \
+	s6-setuidgid abc $union_mount_command
+	
+### MORE EDITS HERE...
