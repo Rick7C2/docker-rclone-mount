@@ -18,3 +18,9 @@ rcache_mount_command="rclone mount --config=/config/.rclone.conf --allow-other $
 echo "Executing => $rcache_mount_command"
 exec \
 	s6-setuidgid abc $rcache_mount_command
+
+union_mount_command="unionfs -o uid=${PUID:-911} -o gid=${PGID:-911} $UNION_MOUNT_OPTIONS /local=RW:/rcache=RO /union"
+
+echo "Executing => $union_mount_command"
+exec \
+	s6-setuidgid abc $union_mount_command
